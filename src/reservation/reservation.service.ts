@@ -1,32 +1,32 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/common/services/prisma.service';
+import { Reservation } from './reservation.types';
 // import { CompanyService } from 'src/company/company.service';
 // import { ObjectService } from 'src/object/object.service';
 
 @Injectable()
 export class ReservationService {
+  private logger = new Logger(ReservationService.name);
+
   constructor(private readonly prisma: PrismaService) {}
 
-  create(data: any) {
-    //do we really need them at this moment? we can get them from object
-    // const company = await this.companyService.getCompanyById(companyId);
-    // const object = await this.objectService.getObjectById(objectId);
-    return 'This action adds a new test';
+  async create(data: any): Promise<Reservation> {
+    return this.prisma.reservation.create({ data });
   }
 
-  findAll() {
-    return `This action returns all test`;
+  async findAll(): Promise<Reservation[] | null> {
+    return this.prisma.reservation.findMany({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} test`;
+  async findOne(id: number): Promise<Reservation | null> {
+    return this.prisma.reservation.findUnique({ where: { id } });
   }
 
-  update(id: number, data: any) {
-    return `This action updates a #${id} test`;
+  async update(id: number, data: any): Promise<Reservation | null> {
+    return this.prisma.reservation.update({ where: { id }, data });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} test`;
+  remove(id: number): void {
+    this.prisma.reservation.delete({ where: { id } });
   }
 }
