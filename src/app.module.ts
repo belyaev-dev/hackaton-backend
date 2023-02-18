@@ -1,21 +1,19 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
 import { CompanyModule } from './company/company.module';
-import { ObjectModule } from './object/object.module';
+import { EstateModule } from './estate/estate.module';
 import { CounterpartyModule } from './counterparty/counterparty.module';
 import { ReservationModule } from './reservation/reservation.module';
-import { TestModule } from './test/test.module';
+import { TaskModule } from './task/task.module';
 
 @Module({
   imports: [
-    UserModule,
     CompanyModule,
-    ObjectModule,
+    EstateModule,
     CounterpartyModule,
     ReservationModule,
-    TestModule,
+    TaskModule,
   ],
   controllers: [AppController],
   providers: [AppService],
