@@ -19,8 +19,10 @@ import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe';
 import { Task } from './task.types';
 import { TaskStatus } from './task.types';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 // import { Company } from '../company/company.types';
 
+@ApiTags('tasks')
 @Controller('tasks')
 // @UseGuards(AuthGuard())
 export class TaskController {
@@ -29,6 +31,11 @@ export class TaskController {
   constructor(private taskService: TaskService) {}
 
   @Get()
+  @ApiOperation({
+    operationId: 'getTasks',
+    summary: '— Получение всех задач по фильтру',
+  })
+  @ApiQuery({ name: 'filterDto', description: 'Фильтр' })
   getTasks(
     @Query(ValidationPipe) filterDto: GetTasksFilterDto,
     // @GetUser() user: User,
@@ -42,6 +49,10 @@ export class TaskController {
   }
 
   @Get('/:id')
+  @ApiOperation({
+    operationId: 'getTaskById',
+    summary: '— Получение конкретной задачи по ID',
+  })
   getTaskById(
     @Param('id', ParseIntPipe) id: number,
     // @GetUser() user: User,
@@ -50,6 +61,10 @@ export class TaskController {
   }
 
   @Post()
+  @ApiOperation({
+    operationId: 'createTask',
+    summary: '— Создание новой задачи',
+  })
   @UsePipes(ValidationPipe)
   createTask(
     @Body() createTaskDto: CreateTaskDto,
@@ -63,6 +78,10 @@ export class TaskController {
     return this.taskService.createTask(createTaskDto);
   }
 
+  @ApiOperation({
+    operationId: 'deleteTask',
+    summary: '— Удаление задачи',
+  })
   @Delete('/:id')
   deleteTask(
     @Param('id', ParseIntPipe) id: number,
@@ -71,6 +90,10 @@ export class TaskController {
     return this.taskService.deleteTask(id);
   }
 
+  @ApiOperation({
+    operationId: 'updateTaskStatus',
+    summary: '— Обновление статуса задачи',
+  })
   @Patch('/:id/status')
   updateTaskStatus(
     @Param('id', ParseIntPipe) id: number,
