@@ -19,7 +19,7 @@ import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe';
 import { Task } from './task.types';
 import { TaskStatus } from './task.types';
-import { Company } from '../company/company.types';
+// import { Company } from '../company/company.types';
 
 @Controller('tasks')
 // @UseGuards(AuthGuard())
@@ -38,7 +38,7 @@ export class TaskController {
     //     filterDto,
     //   )}`,
     // );
-    return this.taskService.getTasks(filterDto, object);
+    return this.taskService.getTasks(filterDto);
   }
 
   @Get('/:id')
@@ -46,7 +46,7 @@ export class TaskController {
     @Param('id', ParseIntPipe) id: number,
     // @GetUser() user: User,
   ): Promise<Task> {
-    return this.taskService.getTaskById(id, object);
+    return this.taskService.getTaskById(id);
   }
 
   @Post()
@@ -60,7 +60,7 @@ export class TaskController {
     //     createTaskDto,
     //   )}`,
     // );
-    return this.taskService.createTask(createTaskDto, object);
+    return this.taskService.createTask(createTaskDto);
   }
 
   @Delete('/:id')
@@ -68,7 +68,7 @@ export class TaskController {
     @Param('id', ParseIntPipe) id: number,
     // @GetUser() user: User,
   ): Promise<void> {
-    return this.taskService.deleteTask(id, object);
+    return this.taskService.deleteTask(id);
   }
 
   @Patch('/:id/status')
@@ -77,6 +77,6 @@ export class TaskController {
     @Body('status', TaskStatusValidationPipe) status: TaskStatus,
     // @GetUser() user: User,
   ): Promise<Task> {
-    return this.taskService.updateTaskStatus(id, status, object);
+    return this.taskService.updateTaskStatus(id, status);
   }
 }

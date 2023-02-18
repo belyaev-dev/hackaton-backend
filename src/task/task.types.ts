@@ -1,9 +1,9 @@
-import type { Task as PrismaTask } from '@prisma/client';
+import { Task as PrismaTask } from '@prisma/client';
 
 export enum TaskStatus {
-  OPEN = 'OPEN',
-  IN_PROGRESS = 'IN_PROGRESS',
-  DONE = 'DONE',
+  Open = 'OPEN',
+  InProgress = 'IN_PROGRESS',
+  Done = 'DONE',
 }
 
 export type Task = PrismaTask;
