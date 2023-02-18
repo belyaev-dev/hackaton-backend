@@ -19,11 +19,8 @@ Backend для приложения Leasease для использования �
 для использования во время разработки и окружение `production` для использования на проде.  Для корректной работы необходимо заменить заглушки на реальные доступы в директории [`env`](env).
 
 ```dosini
-DATABASE_HOST=__YOUR_DATABASE_URL__
-DATABASE_PORT=5432
-DATABASE_USERNAME=__YOUR_USERNAME__
-DATABASE_PASSWORD=__YOUR_PASSWORD__
-DATABASE_NAME=__YOUR_DATABASE__
+DATABASE_URL="postgres://postgres:PWD_HERE@db.URL_HERE:6543/postgres?pgbouncer=true&connection_limit=1"
+SHADOW_DATABASE_URL="postgres://postgres:PWD_HERE@db.URL_HERE:5432/postgres?pgbouncer=true&connection_limit=1"
 ```
 
 ### Миграции
