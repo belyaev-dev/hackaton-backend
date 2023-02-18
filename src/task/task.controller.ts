@@ -16,7 +16,7 @@ import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe';
-import { Task } from './task.types';
+import { ITask, Task } from './task.types';
 import { TaskStatus } from './task.types';
 import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 // import { Company } from '../company/company.types';
@@ -38,7 +38,7 @@ export class TaskController {
   getTasks(
     @Query(ValidationPipe) filterDto: GetTasksFilterDto,
     // @GetUser() user: User,
-  ): Promise<Task[]> {
+  ): Promise<ITask[]> {
     // this.logger.verbose(
     //   `User "${user.username}" retrieving all tasks. Filters: ${JSON.stringify(
     //     filterDto,
@@ -55,7 +55,7 @@ export class TaskController {
   getTaskById(
     @Param('id', ParseIntPipe) id: number,
     // @GetUser() user: User,
-  ): Promise<Task> {
+  ): Promise<ITask> {
     return this.taskService.getTaskById(id);
   }
 
@@ -68,7 +68,7 @@ export class TaskController {
   createTask(
     @Body() createTaskDto: CreateTaskDto,
     // @GetUser() user: User,
-  ): Promise<Task> {
+  ): Promise<ITask> {
     // this.logger.verbose(
     //   `User "${user.username}" created a new task. Data: ${JSON.stringify(
     //     createTaskDto,
@@ -98,7 +98,7 @@ export class TaskController {
     @Param('id', ParseIntPipe) id: number,
     @Body('status', TaskStatusValidationPipe) status: TaskStatus,
     // @GetUser() user: User,
-  ): Promise<Task> {
+  ): Promise<ITask> {
     return this.taskService.updateTaskStatus(id, status);
   }
 }
