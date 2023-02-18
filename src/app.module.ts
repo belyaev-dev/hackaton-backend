@@ -6,6 +6,9 @@ import { EstateModule } from './estate/estate.module';
 import { CounterpartyModule } from './counterparty/counterparty.module';
 import { ReservationModule } from './reservation/reservation.module';
 import { TaskModule } from './task/task.module';
+import { MeterModule } from './meter/meter.module';
+import { SensorModule } from './sensor/sensor.module';
+import { ApartmentModule } from './apartment/apartment.module';
 
 @Module({
   imports: [
@@ -14,6 +17,9 @@ import { TaskModule } from './task/task.module';
     CounterpartyModule,
     ReservationModule,
     TaskModule,
+    MeterModule,
+    SensorModule,
+    ApartmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
