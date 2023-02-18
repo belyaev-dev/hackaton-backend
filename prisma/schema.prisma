@@ -8,17 +8,62 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL") //required for working with Supabase
 }
 
+// USER MANAGEMENT
+
+model EmailChange {
+  token      String   @id @db.Char(21)
+  newEmail   String
+  userId     Int      @unique
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  validUntil DateTime @default(dbgenerated("(timezone('utc'::text, now()) + '2 days'::interval)")) @db.Timestamp(6)
+
+  @@map("email-change")
+}
+
+model EmailVerification {
+  token      String   @id @db.Char(21)
+  userId     Int      @unique
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  validUntil DateTime @default(dbgenerated("(timezone('utc'::text, now()) + '2 days'::interval)")) @db.Timestamp(6)
+
+  @@map("email-verification")
+}
+
+model PasswordReset {
+  token      String   @id @db.Char(21)
+  userId     Int      @unique
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  validUntil DateTime @default(dbgenerated("(timezone('utc'::text, now()) + '2 days'::interval)")) @db.Timestamp(6)
+
+  @@map("password-reset")
+}
+
+model User {
+  id                Int                @id @default(autoincrement())
+  email             String             @unique
+  passwordHash      String
+  firstName         String
+  lastName          String
+  middleName        String?
+  image             String?
+  emailVerified     Boolean            @default(false)
+  birthDate         DateTime?          @db.Date
+  registrationDate  DateTime           @default(dbgenerated("timezone('UTC'::text, now())")) @db.Timestamp(6)
+  emailChange       EmailChange?
+  emailVerification EmailVerification?
+  passwordReset     PasswordReset?
+
+  @@map("user")
+}
+
 model Company {
   id               Int      @id @default(autoincrement())
-  username         String   @unique
+  name             String
   email            String   @unique
   passwordHash     String
-  firstName        String
-  lastName         String
-  middleName       String?
   image            String?
   registrationDate DateTime @default(dbgenerated("timezone('UTC'::text, now())")) @db.Timestamp(6)
-  estates           Estate[]
+  estates          Estate[]
 
   @@map("company")
 }
@@ -50,36 +95,141 @@ model Counterparty {
   @@map("counterparty")
 }
 
+// ESTATE MANAGEMENT
 model Estate {
-  id           Int           @id @default(autoincrement())
-  name         String
-  company      Company       @relation(fields: [companyId], references: [id])
-  companyId    Int
-  tasks        Task[]
-  reservations Reservation[]
+  id         Int         @id @default(autoincrement())
+  name       String
+  company    Company     @relation(fields: [companyId], references: [id])
+  companyId  Int
+  tasks      Task[]
+  apartments Apartment[]
+  sensors    Sensor[]
+  meters     Meter[]
 
   @@map("estate")
 }
 
+enum ApartmentType {
+  RESEDENTIAL
+  COMMERCIAL
+}
+
+model Apartment {
+  id            Int           @id @default(autoincrement())
+  name          String
+  apartmentType ApartmentType
+  estate        Estate        @relation(fields: [estateId], references: [id])
+  estateId      Int
+  sensors       Sensor[]
+  meters        Meter[]
+  Reservation   Reservation[]
+
+  @@map("apartment")
+}
+
 model Reservation {
-  id             Int          @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   startDate      DateTime
   endDate        DateTime
-  estate         Estate       @relation(fields: [estateId], references: [id])
-  estateId       Int
-  createdBy      Counterparty @relation(fields: [counterpartyId], references: [id])
   counterpartyId Int
+  apartmentId    Int
+
+  createdBy Counterparty @relation(fields: [counterpartyId], references: [id])
+  apartment Apartment    @relation(fields: [apartmentId], references: [id])
 
   @@map("reservation")
 }
 
+//INTERNET OF THINGS
+model Sensor {
+  id              Int        @id @default(autoincrement())
+  uuid            String     @unique
+  name            String
+  type            SensorType
+  estateId        Int
+  apartmentId     Int?
+  sensorReadingId Int
+  createdAt       DateTime   @default(now())
+
+  estate    Estate        @relation(fields: [estateId], references: [id])
+  apartment Apartment?    @relation(fields: [apartmentId], references: [id])
+  reading   SensorReading @relation(fields: [sensorReadingId], references: [id])
+
+  @@map("sensor")
+}
+
+enum SensorType {
+  DOOR
+  WINDOW
+  TEMPERATURE
+  HUMIDITY
+  OCCUPANCY
+  MOTION
+  WATER_LEAK
+  CO2
+  FIRE_SMOKE
+  ACCESS_CONTROL
+  ELEVATOR
+  NOISE
+}
+
+model SensorReading {
+  id        Int      @id @default(autoincrement())
+  value     String
+  timestamp DateTime
+  Sensor    Sensor[]
+
+  @@map("sensor-reading")
+}
+
+model Meter {
+  id          Int            @id @default(autoincrement())
+  uuid        String         @unique
+  type        MeterType
+  estateId    Int
+  apartmentId Int?
+  readings    MeterReading[]
+
+  estate    Estate     @relation(fields: [estateId], references: [id])
+  apartment Apartment? @relation(fields: [apartmentId], references: [id])
+
+  @@map("meter")
+}
+
+model MeterReading {
+  id        Int      @id @default(autoincrement())
+  value     Float
+  meterId   Int
+  timestamp DateTime
+
+  meter Meter @relation(fields: [meterId], references: [id])
+
+  @@map("meter-reading")
+}
+
+enum MeterType {
+  WATER
+  GAS
+  WARMTH
+  ELECTRICITY
+}
+
+// TASK MANAGER
 model Task {
-  id           Int      @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   title        String
+  status       TaskStatus @default(value: OPEN)
   description  String?
-  creationDate DateTime @default(dbgenerated("timezone('UTC'::text, now())")) @db.Timestamp(6)
-  estate       Estate   @relation(fields: [estateId], references: [id])
-  estateId     Int
+  creationDate DateTime   @default(dbgenerated("timezone('UTC'::text, now())")) @db.Timestamp(6)
+  estateId     Int?
+
+  estate Estate? @relation(fields: [estateId], references: [id])
 
   @@map("task")
+}
+
+enum TaskStatus {
+  OPEN
+  IN_PROGRESS
+  DONE
 }
