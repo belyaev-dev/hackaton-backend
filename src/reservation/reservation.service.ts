@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/common/services/prisma.service';
-import { Reservation } from './reservation.types';
+import { IReservation, Reservation } from './reservation.types';
 // import { CompanyService } from 'src/company/company.service';
 // import { ObjectService } from 'src/object/object.service';
 
@@ -10,19 +10,19 @@ export class ReservationService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: any): Promise<Reservation> {
+  async create(data: any): Promise<IReservation> {
     return this.prisma.reservation.create({ data });
   }
 
-  async findAll(): Promise<Reservation[] | null> {
+  async findAll(): Promise<IReservation[] | null> {
     return this.prisma.reservation.findMany({});
   }
 
-  async findOne(id: number): Promise<Reservation | null> {
+  async findOne(id: number): Promise<IReservation | null> {
     return this.prisma.reservation.findUnique({ where: { id } });
   }
 
-  async update(id: number, data: any): Promise<Reservation | null> {
+  async update(id: number, data: any): Promise<IReservation | null> {
     return this.prisma.reservation.update({ where: { id }, data });
   }
 

@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/common/services/prisma.service';
-import { Company } from './company.types';
+import { Company, ICompany } from './company.types';
 
 @Injectable()
 export class CompanyService {
@@ -8,19 +8,19 @@ export class CompanyService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: any): Promise<Company> {
+  async create(data: any): Promise<ICompany> {
     return this.prisma.company.create({ data });
   }
 
-  async findAll(): Promise<Company[]> {
+  async findAll(): Promise<ICompany[]> {
     return this.prisma.company.findMany({});
   }
 
-  async findOne(id: number): Promise<Company | null> {
+  async findOne(id: number): Promise<ICompany | null> {
     return this.prisma.company.findUnique({ where: { id } });
   }
 
-  async update(id: number, data: any): Promise<Company | null> {
+  async update(id: number, data: any): Promise<ICompany | null> {
     return this.prisma.company.update({ where: { id }, data });
   }
 

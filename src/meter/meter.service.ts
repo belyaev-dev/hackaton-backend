@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/common/services/prisma.service';
-import { Meter } from './meter.types';
+import { IMeter, Meter } from './meter.types';
 
 @Injectable()
 export class MeterService {
@@ -8,19 +8,19 @@ export class MeterService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: any): Promise<Meter> {
+  async create(data: any): Promise<IMeter> {
     return this.prisma.meter.create({ data });
   }
 
-  async findAll(): Promise<Meter[] | null> {
+  async findAll(): Promise<IMeter[] | null> {
     return this.prisma.meter.findMany({});
   }
 
-  async findOne(id: number): Promise<Meter | null> {
+  async findOne(id: number): Promise<IMeter | null> {
     return this.prisma.meter.findUnique({ where: { id } });
   }
 
-  async update(id: number, data: any): Promise<Meter | null> {
+  async update(id: number, data: any): Promise<IMeter | null> {
     return this.prisma.meter.update({ where: { id }, data });
   }
 

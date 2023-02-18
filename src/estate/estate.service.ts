@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/common/services/prisma.service';
-import { Estate } from './estate.types';
+import { Estate, IEstate } from './estate.types';
 
 @Injectable()
 export class EstateService {
@@ -8,19 +8,19 @@ export class EstateService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: any): Promise<Estate> {
+  async create(data: any): Promise<IEstate> {
     return this.prisma.estate.create({ data });
   }
 
-  async findAll(): Promise<Estate[] | null> {
+  async findAll(): Promise<IEstate[] | null> {
     return this.prisma.estate.findMany({});
   }
 
-  async findOne(id: number): Promise<Estate | null> {
+  async findOne(id: number): Promise<IEstate | null> {
     return this.prisma.estate.findUnique({ where: { id } });
   }
 
-  async update(id: number, data: any): Promise<Estate | null> {
+  async update(id: number, data: any): Promise<IEstate | null> {
     return this.prisma.estate.update({ where: { id }, data });
   }
 

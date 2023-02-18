@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/common/services/prisma.service';
-import { Counterparty } from './counterparty.types';
+import { Counterparty, ICounterparty } from './counterparty.types';
 
 @Injectable()
 export class CounterpartyService {
@@ -8,19 +8,19 @@ export class CounterpartyService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: any): Promise<Counterparty> {
+  async create(data: any): Promise<ICounterparty> {
     return this.prisma.counterparty.create({ data });
   }
 
-  async findAll(): Promise<Counterparty[] | null> {
+  async findAll(): Promise<ICounterparty[] | null> {
     return this.prisma.counterparty.findMany({});
   }
 
-  async findOne(id: number): Promise<Counterparty | null> {
+  async findOne(id: number): Promise<ICounterparty | null> {
     return this.prisma.counterparty.findUnique({ where: { id } });
   }
 
-  async update(id: number, data: any): Promise<Counterparty | null> {
+  async update(id: number, data: any): Promise<ICounterparty | null> {
     return this.prisma.counterparty.update({ where: { id }, data });
   }
 
