@@ -1,9 +1,11 @@
 import { CreateReservationDto } from './dto/create-reservation.dto';
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Param, Post } from '@nestjs/common';
 import { ReservationService } from './reservation.service';
 
 @Controller('reservations')
 export class ReservationController {
+  private logger = new Logger(ReservationController.name);
+
   constructor(private readonly reservationService: ReservationService) {}
 
   @Post()
