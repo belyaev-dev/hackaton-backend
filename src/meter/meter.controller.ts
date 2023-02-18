@@ -70,7 +70,7 @@ export class MeterController {
     operationId: 'deleteReservation',
     summary: '— Отмена аренды/бронирования',
   })
-  @ApiOkResponse('Deleted')
+  @ApiOkResponse({ description: 'Deleted' })
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.meterService.remove(+id);
