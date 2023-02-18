@@ -1,6 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
+import {
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+} from '@nestjs/swagger';
 import { PrismaService } from 'src/common/services/prisma.service';
-import { Sensor } from './sensor.types';
+import { ISensor, Sensor } from './sensor.types';
 
 @Injectable()
 export class SensorService {
@@ -8,22 +13,30 @@ export class SensorService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: any): Promise<Sensor> {
+  @ApiCreatedResponse({ type: Sensor })
+  async create(data: any): Promise<ISensor> {
     return this.prisma.sensor.create({ data });
   }
 
-  async findAll(): Promise<Sensor[] | null> {
+  @ApiOkResponse({ type: Sensor, isArray: true })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  async findAll(): Promise<ISensor[] | null> {
     return this.prisma.sensor.findMany({});
   }
 
-  async findOne(id: number): Promise<Sensor | null> {
+  @ApiOkResponse({ type: Sensor })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  async findOne(id: number): Promise<ISensor | null> {
     return this.prisma.sensor.findUnique({ where: { id } });
   }
 
-  async update(id: number, data: any): Promise<Sensor | null> {
+  @ApiOkResponse({ type: Sensor })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  async update(id: number, data: any): Promise<ISensor | null> {
     return this.prisma.sensor.update({ where: { id }, data });
   }
 
+  @ApiOkResponse({ description: 'Deleted' })
   remove(id: number): void {
     this.prisma.sensor.delete({ where: { id } });
   }
