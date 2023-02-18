@@ -1,6 +1,15 @@
-import { Sensor as SensorPrisma } from '@prisma/client';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  Sensor as SensorPrisma,
+  SensorReading,
+  SensorReading as SensorReadingPrisma,
+} from '@prisma/client';
+import { Apartment } from 'src/apartment/apartment.types';
+import { Estate } from 'src/estate/estate.types';
 
-export type Sensor = SensorPrisma;
+export type ISensor = SensorPrisma;
+
+export type ISensorReading = SensorReadingPrisma;
 
 export enum SensorType {
   Door = 'DOOR',
@@ -15,4 +24,39 @@ export enum SensorType {
   AccessControl = 'ACCESS_CONTROL',
   Elevator = 'ELEVATOR',
   Noise = 'NOISE',
+}
+
+export class Sensor {
+  @ApiPropertyOptional()
+  id?: number;
+
+  @ApiProperty()
+  uuid: string;
+
+  @ApiProperty()
+  name: string;
+
+  @ApiProperty()
+  type: SensorType;
+
+  @ApiProperty()
+  estateId: number;
+
+  @ApiProperty()
+  apartmentId?: number;
+
+  @ApiProperty()
+  sensorReadingId: number;
+
+  @ApiProperty()
+  createdAt: Date;
+
+  @ApiPropertyOptional()
+  estate?: Estate;
+
+  @ApiPropertyOptional()
+  apartment?: Apartment;
+
+  @ApiPropertyOptional()
+  reading?: SensorReading[];
 }
