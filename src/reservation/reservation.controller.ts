@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { ReservationService } from './reservation.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Reservation } from './reservation.types';
+import { IReservation, Reservation } from './reservation.types';
 
 @ApiTags('reservations')
 @Controller('reservations')
@@ -26,7 +26,7 @@ export class ReservationController {
     summary: '— Создание аренды/бронирования',
   })
   @Post()
-  create(@Body() data: CreateReservationDto): Promise<Reservation> {
+  create(@Body() data: CreateReservationDto): Promise<IReservation> {
     return this.reservationService.create(data);
   }
 
@@ -35,7 +35,7 @@ export class ReservationController {
     summary: '— Получить список всех аренд/бронирований данного обьекта',
   })
   @Get()
-  findAll(): Promise<Reservation[] | null> {
+  findAll(): Promise<IReservation[] | null> {
     return this.reservationService.findAll();
   }
 
@@ -44,7 +44,7 @@ export class ReservationController {
     summary: '— Получение информации об аренде/бронировании',
   })
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Reservation | null> {
+  findOne(@Param('id') id: string): Promise<IReservation | null> {
     return this.reservationService.findOne(+id);
   }
 
@@ -56,7 +56,7 @@ export class ReservationController {
   update(
     @Param('id') id: string,
     @Body() updateTestDto: UpdateReservationDto,
-  ): Promise<Reservation | null> {
+  ): Promise<IReservation | null> {
     return this.reservationService.update(+id, updateTestDto);
   }
 
