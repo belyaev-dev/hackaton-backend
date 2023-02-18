@@ -9,16 +9,77 @@ datasource db {
 }
 
 model Company {
-  id                Int                @id @default(autoincrement())
-  username          String             @unique
-  email             String             @unique
-  passwordHash      String
-  firstName         String
-  lastName          String
-  middleName        String?
-  image             String?
-  registrationDate  DateTime           @default(dbgenerated("timezone('UTC'::text, now())")) @db.Timestamp(6)
+  id               Int      @id @default(autoincrement())
+  username         String   @unique
+  email            String   @unique
+  passwordHash     String
+  firstName        String
+  lastName         String
+  middleName       String?
+  image            String?
+  registrationDate DateTime @default(dbgenerated("timezone('UTC'::text, now())")) @db.Timestamp(6)
+  estates           Estate[]
 
   @@map("company")
 }
-  
+
+enum CounterpartyType {
+  INDIVIDUAL_ENTREPRENEUR
+  LIMITED_LIABILITY_COMPANY
+  JOINT_STOCK_COMPANY
+  OTHER
+}
+
+model Counterparty {
+  id           Int              @id @default(autoincrement())
+  type         CounterpartyType
+  name         String
+  inn          String           @unique
+  ogrn         String           @unique
+  kpp          String?
+  okpo         String?
+  director     String
+  registration String
+  phone        String
+  email        String
+  address      String
+  createdDate  DateTime         @default(now())
+  updatedDate  DateTime         @updatedAt
+  reservations Reservation[]
+
+  @@map("counterparty")
+}
+
+model Estate {
+  id           Int           @id @default(autoincrement())
+  name         String
+  company      Company       @relation(fields: [companyId], references: [id])
+  companyId    Int
+  tasks        Task[]
+  reservations Reservation[]
+
+  @@map("estate")
+}
+
+model Reservation {
+  id             Int          @id @default(autoincrement())
+  startDate      DateTime
+  endDate        DateTime
+  estate         Estate       @relation(fields: [estateId], references: [id])
+  estateId       Int
+  createdBy      Counterparty @relation(fields: [counterpartyId], references: [id])
+  counterpartyId Int
+
+  @@map("reservation")
+}
+
+model Task {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String?
+  creationDate DateTime @default(dbgenerated("timezone('UTC'::text, now())")) @db.Timestamp(6)
+  estate       Estate   @relation(fields: [estateId], references: [id])
+  estateId     Int
+
+  @@map("task")
+}
