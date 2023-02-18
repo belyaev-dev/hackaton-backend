@@ -3,39 +3,12 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL") //required for working with Supabase
 }
 
-model EmailChange {
-  token      String   @id @db.Char(21)
-  newEmail   String
-  userId     Int      @unique
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  validUntil DateTime @default(dbgenerated("(timezone('utc'::text, now()) + '2 days'::interval)")) @db.Timestamp(6)
-
-  @@map("email-change")
-}
-
-model EmailVerification {
-  token      String   @id @db.Char(21)
-  userId     Int      @unique
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  validUntil DateTime @default(dbgenerated("(timezone('utc'::text, now()) + '2 days'::interval)")) @db.Timestamp(6)
-
-  @@map("email-verification")
-}
-
-model PasswordReset {
-  token      String   @id @db.Char(21)
-  userId     Int      @unique
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  validUntil DateTime @default(dbgenerated("(timezone('utc'::text, now()) + '2 days'::interval)")) @db.Timestamp(6)
-
-  @@map("password-reset")
-}
-
-model User {
+model Company {
   id                Int                @id @default(autoincrement())
   username          String             @unique
   email             String             @unique
@@ -44,13 +17,8 @@ model User {
   lastName          String
   middleName        String?
   image             String?
-  emailVerified     Boolean            @default(false)
-  birthDate         DateTime?          @db.Date
   registrationDate  DateTime           @default(dbgenerated("timezone('UTC'::text, now())")) @db.Timestamp(6)
-  emailChange       EmailChange?
-  emailVerification EmailVerification?
-  passwordReset     PasswordReset?
 
-
-  @@map("user")
-} 
+  @@map("company")
+}
+  
