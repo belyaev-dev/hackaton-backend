@@ -3,9 +3,9 @@ import { TaskStatus } from '../task.types';
 
 export class TaskStatusValidationPipe implements PipeTransform {
   readonly allowedStatuses = [
-    TaskStatus.OPEN,
-    TaskStatus.IN_PROGRESS,
-    TaskStatus.DONE,
+    TaskStatus.Open,
+    TaskStatus.InProgress,
+    TaskStatus.Done,
   ];
 
   transform(value: any) {
