@@ -1,14 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+} from '@nestjs/swagger';
 import { PrismaService } from 'src/common/services/prisma.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
-import { Task, TaskStatus } from './task.types';
+import { ITask, Task, TaskStatus } from './task.types';
 
 @Injectable()
 export class TaskService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getTasks(filterDto: GetTasksFilterDto): Promise<Task[]> {
+  @ApiOkResponse({ type: Task, isArray: true })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  async getTasks(filterDto: GetTasksFilterDto): Promise<ITask[]> {
     const where = {
       OR: [
         { description: { contains: filterDto.search || '' } },
@@ -25,7 +32,9 @@ export class TaskService {
     });
   }
 
-  async getTaskById(id: number): Promise<Task> {
+  @ApiOkResponse({ type: Task })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  async getTaskById(id: number): Promise<ITask> {
     const found = await this.prisma.task.findUnique({
       where: { id },
     });
@@ -37,10 +46,12 @@ export class TaskService {
     return found;
   }
 
-  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+  @ApiCreatedResponse({ type: Task })
+  async createTask(createTaskDto: CreateTaskDto): Promise<ITask> {
     return this.prisma.task.create({ data: createTaskDto });
   }
 
+  @ApiOkResponse({ description: 'Deleted' })
   async deleteTask(id: number): Promise<void> {
     await this.prisma.task.delete({
       where: { id },
@@ -50,7 +61,8 @@ export class TaskService {
     // }
   }
 
-  async updateTaskStatus(id: number, status: TaskStatus): Promise<Task> {
+  @ApiOkResponse({ type: Task })
+  async updateTaskStatus(id: number, status: TaskStatus): Promise<ITask> {
     const task = await this.prisma.task.update({
       where: { id },
       data: { status },
