@@ -14,7 +14,7 @@ import { ReservationService } from './reservation.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { IReservation, Reservation } from './reservation.types';
 
-@ApiTags('reservations')
+@ApiTags('Бронирования')
 @Controller('reservations')
 export class ReservationController {
   private logger = new Logger(ReservationController.name);

@@ -21,7 +21,7 @@ import { TaskStatus } from './task.types';
 import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 // import { Company } from '../company/company.types';
 
-@ApiTags('tasks')
+@ApiTags('Задачи')
 @Controller('tasks')
 // @UseGuards(AuthGuard())
 export class TaskController {

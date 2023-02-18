@@ -2,7 +2,7 @@ import { Controller, Logger } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CompanyService } from './company.service';
 
-@ApiTags('company')
+@ApiTags('Компании')
 @Controller('company')
 export class CompanyController {
   private logger = new Logger(CompanyController.name);

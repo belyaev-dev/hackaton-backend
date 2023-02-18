@@ -18,7 +18,7 @@ import { UpdateMeterDto } from './dto/update-meter.dto';
 import { MeterService } from './meter.service';
 import { IMeter, Meter } from './meter.types';
 
-@ApiTags('meters')
+@ApiTags('Счетчики')
 @Controller('meters')
 export class MeterController {
   constructor(private readonly meterService: MeterService) {}
@@ -68,7 +68,7 @@ export class MeterController {
 
   @ApiOperation({
     operationId: 'deleteReservation',
-    summary: '— Отмена аренды/бронирования',
+    summary: '— Удаление счетчика из системы',
   })
   @ApiOkResponse({ description: 'Deleted' })
   @Delete(':id')
