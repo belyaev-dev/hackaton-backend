@@ -10,7 +10,6 @@ import {
   UsePipes,
   ValidationPipe,
   ParseIntPipe,
-  UseGuards,
   Logger,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
