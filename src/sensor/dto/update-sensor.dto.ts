@@ -1,4 +1,4 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateReservationDto } from './create-reservation.dto';
+import { CreateSensorDto } from './create-sensor.dto';
 
-export class UpdateReservationDto extends PartialType(CreateReservationDto) {}
+export class UpdateSensorDto extends PartialType(CreateSensorDto) {}

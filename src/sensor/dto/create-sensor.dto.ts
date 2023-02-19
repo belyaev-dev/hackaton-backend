@@ -1,23 +1,36 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Apartment } from 'src/apartment/apartment.types';
-import { Counterparty } from 'src/counterparty/counterparty.types';
+import { Estate } from '../../estate/estate.types';
+import { SensorType, SensorReading } from '../sensor.types';
 
-export class CreateReservationDto {
+export class CreateSensorDto {
   @ApiProperty()
-  startDate: Date;
-
-  @ApiProperty()
-  endDate: Date;
+  uuid: string;
 
   @ApiProperty()
-  counterpartyId: number;
+  name: string;
 
   @ApiProperty()
-  apartmentId: number;
+  type: SensorType;
 
   @ApiProperty()
-  createdBy: Counterparty;
+  estateId: number;
 
   @ApiProperty()
-  apartment: Apartment;
+  apartmentId?: number;
+
+  @ApiProperty()
+  sensorReadingId: number;
+
+  @ApiProperty()
+  createdAt: Date;
+
+  @ApiPropertyOptional()
+  estate?: Estate;
+
+  @ApiPropertyOptional()
+  apartment?: Apartment;
+
+  @ApiPropertyOptional({ type: SensorReading, isArray: true })
+  readings?: SensorReading[];
 }

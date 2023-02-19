@@ -1,7 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   Sensor as SensorPrisma,
-  SensorReading,
   SensorReading as SensorReadingPrisma,
 } from '@prisma/client';
 import { Apartment } from 'src/apartment/apartment.types';
@@ -26,9 +25,26 @@ export enum SensorType {
   Noise = 'NOISE',
 }
 
+export class SensorReading {
+  @ApiProperty()
+  id: number;
+
+  @ApiProperty()
+  value: string;
+
+  @ApiProperty()
+  timestamp: Date;
+
+  @ApiProperty()
+  sensor: Sensor;
+
+  @ApiProperty()
+  sensorId: number;
+}
+
 export class Sensor {
-  @ApiPropertyOptional()
-  id?: number;
+  @ApiProperty()
+  id: number;
 
   @ApiProperty()
   uuid: string;
@@ -36,7 +52,7 @@ export class Sensor {
   @ApiProperty()
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({ enum: SensorType, type: 'enum' })
   type: SensorType;
 
   @ApiProperty()
@@ -51,12 +67,12 @@ export class Sensor {
   @ApiProperty()
   createdAt: Date;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: Estate })
   estate?: Estate;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: Apartment })
   apartment?: Apartment;
 
-  @ApiPropertyOptional()
-  reading?: SensorReading[];
+  @ApiPropertyOptional({ type: SensorReading, isArray: true })
+  readings?: SensorReading[];
 }
