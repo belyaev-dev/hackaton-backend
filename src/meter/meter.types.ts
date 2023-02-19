@@ -45,6 +45,6 @@ export class Meter {
   @ApiPropertyOptional()
   apartmentId?: number;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: MeterReading, isArray: true })
   readings?: MeterReading[];
 }
