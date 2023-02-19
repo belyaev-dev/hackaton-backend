@@ -11,13 +11,15 @@ import {
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiTags,
 } from '@nestjs/swagger';
 import { CameraService } from './camera.service';
 import { Camera, ICamera } from './camera.types';
 import { CreateCameraDto } from './dto/create-camera.dto';
 import { UpdateCameraDto } from './dto/update-camera.dto';
 
-@Controller('camera')
+@ApiTags('Камеры')
+@Controller('cameras')
 export class CameraController {
   constructor(private readonly cameraService: CameraService) {}
 
