@@ -11,7 +11,12 @@ import {
   Post,
 } from '@nestjs/common';
 import { ReservationService } from './reservation.service';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { IReservation, Reservation } from './reservation.types';
 
 @ApiTags('Бронирования')
@@ -25,6 +30,7 @@ export class ReservationController {
     operationId: 'createReservation',
     summary: '— Создание аренды/бронирования',
   })
+  @ApiCreatedResponse({ type: Reservation })
   @Post()
   create(@Body() data: CreateReservationDto): Promise<IReservation> {
     return this.reservationService.create(data);
@@ -34,6 +40,7 @@ export class ReservationController {
     operationId: 'findAllReservations',
     summary: '— Получить список всех аренд/бронирований данного обьекта',
   })
+  @ApiOkResponse({ type: Reservation, isArray: true })
   @Get()
   findAll(): Promise<IReservation[] | null> {
     return this.reservationService.findAll();
@@ -43,6 +50,7 @@ export class ReservationController {
     operationId: 'findOneReservation',
     summary: '— Получение информации об аренде/бронировании',
   })
+  @ApiOkResponse({ type: Reservation })
   @Get(':id')
   findOne(@Param('id') id: string): Promise<IReservation | null> {
     return this.reservationService.findOne(+id);
@@ -52,6 +60,7 @@ export class ReservationController {
     operationId: 'updateReservation',
     summary: '— Обновление информации о бронировании',
   })
+  @ApiOkResponse({ type: Reservation })
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -61,9 +70,10 @@ export class ReservationController {
   }
 
   @ApiOperation({
-    operationId: 'deleteReservation',
+    operationId: 'removeReservation',
     summary: '— Отмена аренды/бронирования',
   })
+  @ApiOkResponse({ description: 'Deleted' })
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.reservationService.remove(+id);
