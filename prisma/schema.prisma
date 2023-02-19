@@ -80,14 +80,14 @@ model Counterparty {
   type         CounterpartyType
   name         String
   inn          String           @unique
-  ogrn         String           @unique
+  ogrn         String?
   kpp          String?
   okpo         String?
-  director     String
-  registration String
-  phone        String
-  email        String
-  address      String
+  director     String?
+  registration String?
+  phone        String?
+  email        String?
+  address      String?
   createdDate  DateTime         @default(now())
   updatedDate  DateTime         @updatedAt
   reservations Reservation[]
@@ -152,7 +152,7 @@ model Sensor {
 
   estate    Estate          @relation(fields: [estateId], references: [id])
   apartment Apartment?      @relation(fields: [apartmentId], references: [id])
-  readings   SensorReading[]
+  readings  SensorReading[]
 
   @@map("sensor")
 }
