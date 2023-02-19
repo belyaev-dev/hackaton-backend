@@ -7,6 +7,7 @@ import { TaskModule } from './task/task.module';
 import { MeterModule } from './meter/meter.module';
 import { SensorModule } from './sensor/sensor.module';
 import { ApartmentModule } from './apartment/apartment.module';
+import { CameraModule } from './camera/camera.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ApartmentModule } from './apartment/apartment.module';
     MeterModule,
     SensorModule,
     ApartmentModule,
+    CameraModule,
   ],
   controllers: [],
   providers: [],

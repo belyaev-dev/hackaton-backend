@@ -105,6 +105,7 @@ model Estate {
   apartments Apartment[]
   sensors    Sensor[]
   meters     Meter[]
+  cameras    Camera[]
 
   @@map("estate")
 }
@@ -122,7 +123,8 @@ model Apartment {
   estateId      Int
   sensors       Sensor[]
   meters        Meter[]
-  reservations   Reservation[]
+  reservations  Reservation[]
+  cameras       Camera[]
 
   @@map("apartment")
 }
@@ -212,6 +214,16 @@ enum MeterType {
   GAS
   WARMTH
   ELECTRICITY
+}
+
+model Camera {
+  id          Int        @id @default(autoincrement())
+  uuid        String     @unique
+  link        String
+  estate      Estate     @relation(fields: [estateId], references: [id])
+  estateId    Int
+  apartment   Apartment? @relation(fields: [apartmentId], references: [id])
+  apartmentId Int?
 }
 
 // TASK MANAGER
