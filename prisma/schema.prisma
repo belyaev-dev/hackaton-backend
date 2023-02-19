@@ -142,18 +142,17 @@ model Reservation {
 
 //INTERNET OF THINGS
 model Sensor {
-  id              Int        @id @default(autoincrement())
-  uuid            String     @unique
-  name            String
-  type            SensorType
-  estateId        Int
-  apartmentId     Int?
-  sensorReadingId Int
-  createdAt       DateTime   @default(now())
+  id          Int        @id @default(autoincrement())
+  uuid        String     @unique
+  name        String
+  type        SensorType
+  estateId    Int
+  apartmentId Int?
+  createdAt   DateTime   @default(now())
 
-  estate    Estate        @relation(fields: [estateId], references: [id])
-  apartment Apartment?    @relation(fields: [apartmentId], references: [id])
-  reading   SensorReading @relation(fields: [sensorReadingId], references: [id])
+  estate    Estate          @relation(fields: [estateId], references: [id])
+  apartment Apartment?      @relation(fields: [apartmentId], references: [id])
+  readings   SensorReading[]
 
   @@map("sensor")
 }
@@ -177,7 +176,8 @@ model SensorReading {
   id        Int      @id @default(autoincrement())
   value     String
   timestamp DateTime
-  Sensor    Sensor[]
+  sensor    Sensor?  @relation(fields: [sensorId], references: [id])
+  sensorId  Int?
 
   @@map("sensor-reading")
 }
