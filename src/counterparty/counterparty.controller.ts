@@ -28,7 +28,7 @@ export class CounterpartyController {
 
   @ApiOperation({
     operationId: 'createCounterparty',
-    summary: '— Создание недвижимости',
+    summary: '— Создание контрагента',
   })
   @ApiCreatedResponse({ type: Counterparty })
   @Post()
@@ -38,7 +38,7 @@ export class CounterpartyController {
 
   @ApiOperation({
     operationId: 'findAllCounterparties',
-    summary: '— Получить список всех недвижимостей',
+    summary: '— Получить список всех контрагентов',
   })
   @ApiOkResponse({ type: Counterparty, isArray: true })
   @Get()
@@ -48,7 +48,7 @@ export class CounterpartyController {
 
   @ApiOperation({
     operationId: 'findOneCounterparty',
-    summary: '— Получение информации о недвижимости',
+    summary: '— Получение информации о контрагенте',
   })
   @ApiOkResponse({ type: Counterparty })
   @Get(':id')
@@ -58,7 +58,7 @@ export class CounterpartyController {
 
   @ApiOperation({
     operationId: 'updateCounterparty',
-    summary: '— Обновление информации о недвижимости',
+    summary: '— Обновление информации о контрагенте',
   })
   @ApiOkResponse({ type: Counterparty })
   @Patch(':id')
@@ -71,7 +71,7 @@ export class CounterpartyController {
 
   @ApiOperation({
     operationId: 'removeCounterparty',
-    summary: '— Удаление недвижимости',
+    summary: '— Удаление контрагента',
   })
   @ApiOkResponse({ description: 'Deleted' })
   @Delete(':id')
