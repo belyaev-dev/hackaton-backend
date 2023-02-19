@@ -50,14 +50,14 @@ export class Sensor {
   @ApiProperty()
   createdAt: Date;
 
-  @ApiPropertyOptional({ type: Estate })
-  estate?: Estate;
+  // @ApiPropertyOptional({ type: Estate })
+  // estate?: Estate;
 
-  @ApiPropertyOptional({ type: Apartment })
-  apartment?: Apartment;
+  // @ApiPropertyOptional({ type: Apartment })
+  // apartment?: Apartment;
 
   // @ApiPropertyOptional({ type: SensorReading, isArray: true })
-  readings?: SensorReading[];
+  // readings?: SensorReading[];
 }
 
 export class SensorReading {
