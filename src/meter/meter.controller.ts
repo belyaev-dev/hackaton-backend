@@ -67,7 +67,7 @@ export class MeterController {
   }
 
   @ApiOperation({
-    operationId: 'deleteReservation',
+    operationId: 'removeReservation',
     summary: '— Удаление счетчика из системы',
   })
   @ApiOkResponse({ description: 'Deleted' })
