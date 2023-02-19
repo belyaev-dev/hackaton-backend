@@ -3,8 +3,6 @@ import {
   Sensor as SensorPrisma,
   SensorReading as SensorReadingPrisma,
 } from '@prisma/client';
-import { Apartment } from 'src/apartment/apartment.types';
-import { Estate } from 'src/estate/estate.types';
 
 export type ISensor = SensorPrisma;
 
