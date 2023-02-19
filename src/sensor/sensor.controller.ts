@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { SensorService } from './sensor.service';
 import { ISensor, ISensorReading } from './sensor.types';
 import { CreateSensorDto } from './dto/create-sensor.dto';
@@ -60,7 +60,7 @@ export class SensorController {
   }
 
   @ApiOperation({
-    operationId: 'deleteSensor',
+    operationId: 'removeSensor',
     summary: '— Удаление датчика',
   })
   @Delete(':id')

@@ -78,7 +78,7 @@ export class TaskController {
   }
 
   @ApiOperation({
-    operationId: 'deleteTask',
+    operationId: 'removeTask',
     summary: '— Удаление задачи',
   })
   @Delete('/:id')
