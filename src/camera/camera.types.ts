@@ -1,3 +1,4 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Camera as PrismaCamera } from '@prisma/client';
 
 export type ICamera = PrismaCamera;
