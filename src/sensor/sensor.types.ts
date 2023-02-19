@@ -25,23 +25,6 @@ export enum SensorType {
   Noise = 'NOISE',
 }
 
-export class SensorReading {
-  @ApiProperty()
-  id: number;
-
-  @ApiProperty()
-  value: string;
-
-  @ApiProperty()
-  timestamp: Date;
-
-  @ApiProperty()
-  sensor: Sensor;
-
-  @ApiProperty()
-  sensorId: number;
-}
-
 export class Sensor {
   @ApiProperty()
   id: number;
@@ -73,6 +56,23 @@ export class Sensor {
   @ApiPropertyOptional({ type: Apartment })
   apartment?: Apartment;
 
-  @ApiPropertyOptional({ type: SensorReading, isArray: true })
+  // @ApiPropertyOptional({ type: SensorReading, isArray: true })
   readings?: SensorReading[];
+}
+
+export class SensorReading {
+  @ApiProperty()
+  id: number;
+
+  @ApiProperty()
+  value: string;
+
+  @ApiProperty()
+  timestamp: Date;
+
+  @ApiProperty()
+  sensor: Sensor;
+
+  @ApiProperty()
+  sensorId: number;
 }
