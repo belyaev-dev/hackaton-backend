@@ -1,19 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import type { Counterparty as PrismaCounterparty } from '@prisma/client';
+import { CounterpartyType } from '../counterparty.types';
 
-export type ICounterparty = PrismaCounterparty;
-
-export enum CounterpartyType {
-  IndividualEntrepreneur = 'INDIVIDUAL_ENTREPRENEUR',
-  LimitedLiabilityCompany = 'LIMITED_LIABILITY_COMPANY',
-  JointStockCompany = 'JOINT_STOCK_COMPANY',
-  Other = 'OTHER',
-}
-
-export class Counterparty {
-  @ApiProperty()
-  id: number;
-
+export class CreateCounterpartyDto {
   @ApiProperty({ type: 'enum', enum: CounterpartyType })
   type: CounterpartyType;
 
